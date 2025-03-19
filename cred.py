@@ -1,7 +1,9 @@
 import openpyxl as xl
 import re as re
+import os
 
 arquivo = xl.load_workbook(filename="C:/Users/mamfy/Desktop/prog/proj03-CRED/exemplo_dados_com_cpf.xlsx")
+output = open("output.txt", "x", encoding="utf-8")
 
 ws = arquivo.active
 
@@ -27,13 +29,13 @@ def pesquisa(query, r):
             row[-1].value = "PRESENTE"
             arquivo.save("C:/Users/mamfy/Desktop/prog/proj03-CRED/exemplo_dados_com_cpf_teste.xlsx")
             print([cell.value for cell in row])
+            output.write(",".join(str(cell.value) for cell in row) + "\n")
             return
     print("404")
 
 while True:
     try:
         query = input("Digite o CPF / RG para pesquisa: ")
-        #pesquisa(query)
         if len(query) < 11:
             pesquisa(query, 1)
         else: pesquisa(query, 0)
